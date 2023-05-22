@@ -6,10 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import com.example.personalfinancetool.databinding.FragmentInvestmentBinding
+import com.example.personalfinancetool.ui.Budgeting.BudgetingViewModel
 
 class InvestmentFragment : Fragment() {
+    val budgetViewModel : BudgetingViewModel by activityViewModels()
 
     private var _binding: FragmentInvestmentBinding? = null
 
@@ -28,10 +31,8 @@ class InvestmentFragment : Fragment() {
         _binding = FragmentInvestmentBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
+        binding.textHome.text = budgetViewModel.disposableIncome.value.toString()
+
         return root
     }
 

@@ -7,12 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.MutableLiveData
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import com.example.personalfinancetool.adapter.RemoveClickListener
 import com.example.personalfinancetool.adapter.budgetViewAdapter
+import com.example.personalfinancetool.database.BudgetDatabase
+import com.example.personalfinancetool.database.BudgetDatabaseDao
 import com.example.personalfinancetool.databinding.FragmentBudgetingBinding
 import com.example.personalfinancetool.model.IncomeExpenseItem
 
@@ -29,7 +30,7 @@ import com.example.personalfinancetool.model.IncomeExpenseItem
 // Eventuellt har adaptern tillgång till viewmodeln men lär inte behövas
 class BudgetingFragment : Fragment() {
 
-    val viewModel = BudgetingViewModel() // initialize viewmodel
+    val budgetViewModel : BudgetingViewModel by activityViewModels()
 
 
     private var _binding: FragmentBudgetingBinding? = null
@@ -44,13 +45,16 @@ class BudgetingFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        val application = requireNotNull(this.activity).application
+        val budgetDatabaseDao = BudgetDatabase.getInstance(application).budgetDatabaseDao
+        budgetViewModel.dao = budgetDatabaseDao
+        budgetViewModel.updateFromDatabase() // Gets loaded Items from the database
         val dashboardViewModel =
             ViewModelProvider(this).get(BudgetingViewModel::class.java)
 
         _binding = FragmentBudgetingBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val ExtractedList = viewModel.BudgetingItemList.value?.toMutableList()
 
         val myAdapter = budgetViewAdapter(mutableListOf(), RemoveClickListener {
             //Empty clicklistener
@@ -61,14 +65,14 @@ class BudgetingFragment : Fragment() {
             showAddItemDialog()
         }
 
-        val BudgetingList = viewModel.BudgetingItemList
+        val BudgetingList = budgetViewModel.BudgetingItemList
 
 
 
         // The following updates the adapterdata and View whenever the livedata changes
-        viewModel.BudgetingItemList.observe(viewLifecycleOwner) {
+        budgetViewModel.BudgetingItemList.observe(viewLifecycleOwner) {
             val newAdapter = budgetViewAdapter(BudgetingList.value as MutableList<IncomeExpenseItem>, RemoveClickListener {
-            viewModel.onRemoveClicked(it)
+            budgetViewModel.onRemoveClicked(it)
             })
             binding.budgetListRv.adapter = newAdapter
             updateDisposableInc()
@@ -86,13 +90,14 @@ class BudgetingFragment : Fragment() {
 
     // adds all incomes and expenses together and displays disposable income
     private fun updateDisposableInc() {
-        val currentList = viewModel.BudgetingItemList.value
+        val currentList = budgetViewModel.BudgetingItemList.value
         var accumulate : Int = 0
         if (currentList != null) {
             for (expense in currentList ) {
                 accumulate += expense.krValue
             }
         }
+        budgetViewModel.disposableIncome.value = accumulate
         binding.DisposableTextView.text = "Your monthly disposable income is : $accumulate KR"
     }
 
@@ -124,7 +129,7 @@ class BudgetingFragment : Fragment() {
         ) { dialog, whichButton ->
             val amount = krValue.text.toString().toInt()
             val text = description.text.toString()
-            viewModel.AddNewItem(amount,text)
+            budgetViewModel.AddNewItem(amount,text)
         }
 
 

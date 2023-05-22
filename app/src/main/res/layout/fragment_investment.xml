@@ -4,19 +4,116 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#2C2525"
     tools:context=".ui.home.InvestmentFragment">
+
+
+    <EditText
+        android:id="@+id/disposablePercent"
+        android:layout_width="150dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/custom_input"
+        android:hint="%"
+        android:inputType="number"
+        android:paddingLeft="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/Monthly_save"
+        app:layout_constraintStart_toEndOf="@+id/percentageDescription" />
+
+    <EditText
+        android:id="@+id/Monthly_save"
+        android:layout_width="150dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="10dp"
+        android:hint="Kr"
+        android:inputType="number"
+        android:background="@drawable/custom_input"
+        android:paddingLeft="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/saving_time"
+        app:layout_constraintStart_toStartOf="@+id/disposablePercent" />
+
+    <EditText
+        android:id="@+id/saving_time"
+        android:layout_width="150dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="10dp"
+        android:hint="years"
+        android:inputType="number"
+        android:background="@drawable/custom_input"
+        android:paddingLeft="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/expected_return"
+        app:layout_constraintStart_toStartOf="@+id/Monthly_save" />
+
+    <EditText
+        android:id="@+id/expected_return"
+        android:layout_width="150dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="248dp"
+        android:hint="%"
+        android:inputType="number"
+        android:background="@drawable/custom_input"
+        android:paddingLeft="10dp"
+        app:layout_constraintStart_toStartOf="@+id/saving_time"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/text_home"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:text="showsDisp"
+        android:textColor= "@color/white"
         android:textAlignment="center"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/percentageDescription"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:maxLines="3"
+        android:text="Percentage of disposable Income to save"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/disposablePercent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/disposablePercent" />
+
+    <TextView
+        android:id="@+id/monthlyDescription"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:maxLines="3"
+        android:text="Monthly Contribution"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/Monthly_save"
+        app:layout_constraintStart_toStartOf="@+id/percentageDescription"
+        app:layout_constraintTop_toTopOf="@+id/Monthly_save" />
+
+    <TextView
+        android:id="@+id/saving_time_description"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:maxLines="3"
+        android:text="Nr of years you plan to save"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/saving_time"
+        app:layout_constraintStart_toStartOf="@+id/monthlyDescription"
+        app:layout_constraintTop_toTopOf="@+id/saving_time" />
+
+    <TextView
+        android:id="@+id/expected_return_description"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:maxLines="3"
+        android:text="Expected annual return"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/expected_return"
+        app:layout_constraintStart_toStartOf="@+id/saving_time_description"
+        app:layout_constraintTop_toTopOf="@+id/expected_return" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
