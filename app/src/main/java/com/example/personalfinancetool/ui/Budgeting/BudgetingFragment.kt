@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
+import com.example.personalfinancetool.adapter.RemoveClickListener
 import com.example.personalfinancetool.adapter.budgetViewAdapter
 import com.example.personalfinancetool.databinding.FragmentBudgetingBinding
 import com.example.personalfinancetool.model.IncomeExpenseItem
@@ -27,8 +28,9 @@ import com.example.personalfinancetool.model.IncomeExpenseItem
 // Så att jag kan sätta upp LIVEDATA i viewmodeln som jag kan ändra i viewmodeln när man klickar
 // Eventuellt har adaptern tillgång till viewmodeln men lär inte behövas
 class BudgetingFragment : Fragment() {
-    val finItemList = mutableListOf<IncomeExpenseItem>()
-    val finItems = MutableLiveData<List<IncomeExpenseItem>?>()
+
+    val viewModel = BudgetingViewModel() // initialize viewmodel
+
 
     private var _binding: FragmentBudgetingBinding? = null
 
@@ -47,35 +49,27 @@ class BudgetingFragment : Fragment() {
 
         _binding = FragmentBudgetingBinding.inflate(inflater, container, false)
         val root: View = binding.root
-        /**
-        val textView: TextView = binding.textDashboard
-        dashboardViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
-        **/
-        /**
-        finItemList.add(IncomeExpenseItem(100,"lön"))
-        finItemList.add(IncomeExpenseItem(-50,"chips"))
-        finItemList.add(IncomeExpenseItem(-50, "chips"))
-        finItemList.add(IncomeExpenseItem(-50, "chips"))
-        finItemList.add(IncomeExpenseItem(-50, "chips"))
-        finItemList.add(IncomeExpenseItem(-50, "chips"))
-        finItemList.add(IncomeExpenseItem(-50, "chips"))
-        **/
-        finItems.value = finItemList
 
+        val ExtractedList = viewModel.BudgetingItemList.value?.toMutableList()
 
-        val myAdapter = budgetViewAdapter(finItemList)
+        val myAdapter = budgetViewAdapter(mutableListOf(), RemoveClickListener {
+            //Empty clicklistener
+        }) // Empty setup, startdata ska hämtas från databsen senare
         binding.budgetListRv.adapter = myAdapter
 
         binding.addItemButton.setOnClickListener {
             showAddItemDialog()
         }
 
+        val BudgetingList = viewModel.BudgetingItemList
 
 
-        finItems.observe(viewLifecycleOwner) { // If the Livedata Changes, update the adapter
-            val newAdapter = budgetViewAdapter(finItems.value as MutableList<IncomeExpenseItem>)
+
+        // The following updates the adapterdata and View whenever the livedata changes
+        viewModel.BudgetingItemList.observe(viewLifecycleOwner) {
+            val newAdapter = budgetViewAdapter(BudgetingList.value as MutableList<IncomeExpenseItem>, RemoveClickListener {
+            viewModel.onRemoveClicked(it)
+            })
             binding.budgetListRv.adapter = newAdapter
             updateDisposableInc()
         }
@@ -92,7 +86,7 @@ class BudgetingFragment : Fragment() {
 
     // adds all incomes and expenses together and displays disposable income
     private fun updateDisposableInc() {
-        val currentList = finItems.value
+        val currentList = viewModel.BudgetingItemList.value
         var accumulate : Int = 0
         if (currentList != null) {
             for (expense in currentList ) {
@@ -103,12 +97,7 @@ class BudgetingFragment : Fragment() {
     }
 
 
-    private fun AddNewItem(amount : Int, description : String) { // Takes data from dialog and updates livedata
-        val currentList = finItems.value?.toMutableList()
-        val newItem = IncomeExpenseItem(amount,description)
-        currentList?.add(newItem)
-        finItems.value = currentList
-    }
+
 
     private fun showAddItemDialog() {
 
@@ -135,7 +124,7 @@ class BudgetingFragment : Fragment() {
         ) { dialog, whichButton ->
             val amount = krValue.text.toString().toInt()
             val text = description.text.toString()
-            AddNewItem(amount,text)
+            viewModel.AddNewItem(amount,text)
         }
 
 

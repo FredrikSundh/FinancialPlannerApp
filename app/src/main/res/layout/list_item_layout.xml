@@ -8,11 +8,17 @@
             name="IncomeExpense"
             type="com.example.personalfinancetool.model.IncomeExpenseItem" />
 
+        <variable
+            name="clickListener"
+            type="com.example.personalfinancetool.adapter.RemoveClickListener" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="#2C2525"
+        >
 
         <TextView
             android:id="@+id/itemType"
@@ -21,7 +27,7 @@
             android:layout_marginStart="15dp"
             android:layout_marginTop="8dp"
             android:text="IncOrExp"
-            android:textColor="#000000"
+            android:textColor="#FFFFFF"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -35,7 +41,7 @@
             android:layout_marginStart="15dp"
             android:layout_marginTop="8dp"
             android:text="No Description Found"
-            android:textColor="#000000"
+            android:textColor="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/itemType"
             app:layout_constraintTop_toTopOf="parent" />
@@ -47,6 +53,7 @@
             android:layout_marginEnd="110dp"
             android:background="@drawable/remove_button"
             android:contentDescription="Description of the image or button"
+            android:onClick="@{() -> clickListener.onItemClick(IncomeExpense)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -57,7 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Kr Amount"
-            android:textColor="#000000"
+            android:textColor="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.936"
