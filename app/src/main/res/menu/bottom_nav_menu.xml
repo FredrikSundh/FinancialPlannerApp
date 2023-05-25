@@ -3,8 +3,9 @@
 
     <item
         android:id="@+id/navigation_home"
-        android:icon="@drawable/ic_home_black_24dp"
-        android:title="BudgetTool" />
+        android:icon="@drawable/ic_budget_nav_24"
+        android:title="BudgetTool"
+        android:iconTint="@color/white"/>
 
     <item
         android:id="@+id/navigation_dashboard"

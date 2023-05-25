@@ -13,6 +13,7 @@ import kotlinx.coroutines.withContext
 class BudgetingViewModel : ViewModel() {
     val BudgetingItemList: MutableLiveData<MutableList<IncomeExpenseItem>> = MutableLiveData(mutableListOf())
     var disposableIncome : MutableLiveData<Int> = MutableLiveData()
+    var calcResult : String = ""
     lateinit var dao : BudgetDatabaseDao
     fun AddNewItem(amount: Int, description: String) { // Takes data from dialog and updates LiveData
         val currentList = BudgetingItemList.value!!.toMutableList()

@@ -1,4 +1,4 @@
-package com.example.personalfinancetool.ui.notifications
+package com.example.personalfinancetool.ui.learning
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

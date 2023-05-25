@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#2C2525"
+    android:background="#161616"
     tools:context=".ui.Budgeting.BudgetingFragment">
 
 
@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="50dp"
-        android:layout_marginBottom="200dp"
+        android:layout_marginBottom="150dp"
         android:scrollbars="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -26,6 +26,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Add Item"
+        android:textColor="#FDFDFD"
+        android:backgroundTint="#18b66f"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,7 +40,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="2dp"
         android:text="Monthly Budget"
-        android:textColor="#FFFFFF"
+        android:textColor="#FDFDFD"
         android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/budget_list_rv"
         app:layout_constraintEnd_toStartOf="@+id/add_item_button"
@@ -52,7 +54,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:text="TextView"
-        android:textColor="#FFFFFF"
+        android:textColor="#F9F9F9"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/budget_list_rv" />
 
